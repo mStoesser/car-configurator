@@ -37,7 +37,9 @@ class CarConfigurationService(
 
     fun fromEntity(entity: CarConfigurationEntity) = Configuration(
         id = entity.id,
-        productId = entity.productId,
+        productId = entity.product.id,
+        type = entity.product.carType,
+        klass = entity.product.carClass,
         name = entity.name,
         configurationValues = entity.values.map { ConfigurationValue(
             key = it.axisKey,
@@ -48,12 +50,12 @@ class CarConfigurationService(
 
 
     fun create(configuration: Configuration): Configuration {
-        val product = carProductRepository.findByIdOrNull(configuration.productId)
+        val product = carProductRepository.findByIdOrNull(configuration.productId) ?: throw IllegalArgumentException("product not found")
         val axis = carProductAxisRepository.findByProductId(configuration.productId)
         validateConfigurationWithAxis(configuration, axis)
         return CarConfigurationEntity(
             id = null,
-            productId = configuration.productId,
+            product = product,
             name = configuration.name,
             values = mutableListOf(),
             price = calculatePrice(configuration.configurationValues, product, axis)
@@ -84,12 +86,13 @@ class CarConfigurationService(
 
 
     fun update(id: Int, configuration: Configuration): Configuration? {
-        val product = carProductRepository.findByIdOrNull(configuration.productId)
+        val product = carProductRepository.findByIdOrNull(configuration.productId) ?: throw IllegalArgumentException("product not found")
         val axis = carProductAxisRepository.findByProductId(configuration.productId)
         validateConfigurationWithAxis(configuration, axis)
         return carConfigurationRepository.findByIdOrNull(id)?.let { entity ->
             configurationValueRepository.findByConfigurationId(id).forEach(entityManager::remove)
             entity.name = configuration.name
+            entity.product = product
             entity.values = createConfigurationValues(configuration.configurationValues, entity)
             entity.price =  calculatePrice(configuration.configurationValues, product, axis)
             fromEntity(entity)
