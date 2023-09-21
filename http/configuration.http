@@ -1,0 +1,58 @@
+### List Configuration 1
+GET http://localhost:8080/api/configuration/1
+
+### List Configurations
+GET http://localhost:8080/api/configuration/
+
+
+### Validate Configuration
+POST http://localhost:8080/api/configuration/validate
+Content-Type: application/json
+
+{
+  "productId": 1,
+  "name": "super",
+  "configurationValues": [
+    {
+      "key": "color",
+      "value": "gelb"
+    },
+    {
+      "key": "engine",
+      "value": "385"
+    }
+  ]
+}
+
+### Create Configuration
+POST http://localhost:8080/api/configuration/
+Content-Type: application/json
+
+{
+  "productId": 1,
+  "name": "super",
+  "configurationValues": [
+    {
+      "key": "color",
+      "value": "gelb"
+    }
+  ]
+}
+
+### Update Configuration
+PUT http://localhost:8080/api/configuration/1
+Content-Type: application/json
+
+{
+  "productId": 1,
+  "name": "super",
+  "configurationValues": [
+    {
+      "key": "color",
+      "value": "rot"
+    }
+  ]
+}
+### Delete Configuration
+DELETE http://localhost:8080/api/configuration/1
+

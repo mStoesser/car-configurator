@@ -1,0 +1,12 @@
+
+### List Products
+GET http://localhost:8080/api/product/
+
+
+### Get Product 1
+GET http://localhost:8080/api/product/1
+
+### Get Product 1 Axis
+GET http://localhost:8080/api/product/1/axis
+
+
