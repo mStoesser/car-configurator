@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("http://localhost:3000") //TODO: use a global cors config
 @RequestMapping("/api/configuration", produces = [MediaType.APPLICATION_JSON_VALUE])
 class CarConfigurationResource(
     val carConfigurationService: CarConfigurationService,
